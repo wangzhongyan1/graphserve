@@ -96,9 +96,12 @@ class Runtime:
         from ray.serve.handle import DeploymentHandle
         
         # Create Ray actor class for the node
+        # Note: When autoscaling_config is provided, num_replicas should not be set
+        use_autoscaling = node.config.max_replicas > node.config.min_replicas
+        
         @serve.deployment(
             name=f"{self.graph.name}_{node.name}",
-            num_replicas=node.config.min_replicas,
+            num_replicas=None if use_autoscaling else node.config.min_replicas,
             ray_actor_options=node.config.to_ray_resources(),
             autoscaling_config={
                 "min_replicas": node.config.min_replicas,
@@ -106,7 +109,7 @@ class Runtime:
                 "target_num_ongoing_requests_per_replica": node.config.target_concurrency,
                 "upscale_delay_s": node.config.scale_up_delay,
                 "downscale_delay_s": node.config.scale_down_delay,
-            } if node.config.max_replicas > node.config.min_replicas else None,
+            } if use_autoscaling else None,
         )
         class NodeActor:
             def __init__(self, node_func):

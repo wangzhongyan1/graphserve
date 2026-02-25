@@ -1,0 +1,28 @@
+# vscode
+.vscode
+
+# pyache
+*__pycache__
+/__pycache__
+__pycache__/*
+*.pyc
+depends/*
+
+# test data
+*.tar
+
+# log
+*.log
+
+# egg-info
+*.egg-info
+
+
+# dist
+dist/
+odin_request/
+model_download/
+kernel_meta/
+
+# pyi for thrift
+*.pyi

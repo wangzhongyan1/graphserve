@@ -11,18 +11,18 @@ graph = Graph("hello")
 
 @graph.node(cpus=0.5)
 async def greet(state):
-    name = state.data.get("name", "World")
+    name = state.get("name", "World")
     return {"message": f"Hello, {name}!"}
 
 @graph.node(cpus=0.5)
 async def farewell(state):
-    msg = state.data.get("message", "")
+    msg = state.get("message", "")
     return {"final": f"{msg} Goodbye!"}
 
 graph.add_edge("greet", "farewell").set_start("greet").set_end("farewell")
 
 async def main():
-    runtime = await Runtime(graph).deploy(local_mode=True)
+    runtime = await Runtime(graph).deploy(local_mode=False)
     execution_id = await runtime.submit({"name": "GraphServe"})
     result = await runtime.get_result(execution_id)
     print(f"Result: {result.data}")
