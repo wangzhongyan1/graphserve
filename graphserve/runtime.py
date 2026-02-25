@@ -73,6 +73,11 @@ class Runtime:
             if not ray.is_initialized():
                 ray.init(ignore_reinit_error=True)
             
+            # Start Ray Serve with a different port to avoid conflict with FastAPI
+            # Use port 0 to let Ray choose an available port
+            if not serve.status().applications:
+                serve.start(http_options={"host": "0.0.0.0", "port": 0})
+            
             # Deploy each node as a Ray Serve deployment
             for name, node in self.graph.nodes.items():
                 deployment = await self._deploy_node(node)
@@ -115,8 +120,12 @@ class Runtime:
             def __init__(self, node_func):
                 self.node_func = node_func
             
-            async def __call__(self, state, **kwargs):
-                return await self.node_func(state, **kwargs)
+            async def __call__(self, state_data, **kwargs):
+                # state_data is a dict, wrap it in a simple object that mimics State
+                class SimpleState:
+                    def __init__(self, data):
+                        self.data = data
+                return await self.node_func(SimpleState(state_data), **kwargs)
         
         # Deploy the actor
         deployment = NodeActor.bind(node.func)
@@ -257,6 +266,17 @@ class Runtime:
         
         # Wait for all parallel executions
         await asyncio.gather(*tasks, return_exceptions=True)
+    
+    async def get_state(self, execution_id: str) -> Optional[State]:
+        """Get the current state of an execution.
+        
+        Args:
+            execution_id: Execution ID
+        
+        Returns:
+            Current state or None if not found
+        """
+        return await self.state_manager.get_state(execution_id)
     
     async def get_result(self, execution_id: str, timeout: Optional[float] = None) -> Optional[State]:
         """Get the result of an execution.

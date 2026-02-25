@@ -1,0 +1,27 @@
+{
+  "execution_id": "3d4c82a1-2d5b-4cf4-b224-52797639bcee",
+  "graph_name": "echo_service",
+  "data": {
+    "name": "Eve",
+    "message": "Hey",
+    "processed": true,
+    "result": "Hey, Eve!",
+    "pid": 62160,
+    "final_output": "HEY, EVE!",
+    "timestamp": "134734.561"
+  },
+  "current_node": null,
+  "visited_nodes": [
+    "process",
+    "format_output"
+  ],
+  "completed_nodes": [
+    "process",
+    "format_output"
+  ],
+  "status": "completed",
+  "error": null,
+  "created_at": "2026-02-26T00:36:47.799108",
+  "updated_at": "2026-02-26T00:36:48.381402",
+  "completed_at": "2026-02-26T00:36:48.381399"
+}

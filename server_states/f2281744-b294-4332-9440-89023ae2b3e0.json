@@ -1,0 +1,27 @@
+{
+  "execution_id": "f2281744-b294-4332-9440-89023ae2b3e0",
+  "graph_name": "echo_service",
+  "data": {
+    "name": "Alice",
+    "message": "Greetings",
+    "processed": true,
+    "result": "Greetings, Alice!",
+    "pid": 59828,
+    "final_output": "GREETINGS, ALICE!",
+    "timestamp": "134646.384"
+  },
+  "current_node": null,
+  "visited_nodes": [
+    "process",
+    "format_output"
+  ],
+  "completed_nodes": [
+    "process",
+    "format_output"
+  ],
+  "status": "completed",
+  "error": null,
+  "created_at": "2026-02-26T00:35:19.615093",
+  "updated_at": "2026-02-26T00:35:20.191796",
+  "completed_at": "2026-02-26T00:35:20.191794"
+}

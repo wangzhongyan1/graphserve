@@ -1,0 +1,27 @@
+{
+  "execution_id": "33848fc2-cd31-479a-b42b-d7c7bb9b380b",
+  "graph_name": "echo_service",
+  "data": {
+    "name": "Diana",
+    "message": "Welcome",
+    "processed": true,
+    "result": "Welcome, Diana!",
+    "pid": 63665,
+    "final_output": "WELCOME, DIANA!",
+    "timestamp": "134829.391"
+  },
+  "current_node": null,
+  "visited_nodes": [
+    "process",
+    "format_output"
+  ],
+  "completed_nodes": [
+    "process",
+    "format_output"
+  ],
+  "status": "completed",
+  "error": null,
+  "created_at": "2026-02-26T00:38:22.620007",
+  "updated_at": "2026-02-26T00:38:23.207642",
+  "completed_at": "2026-02-26T00:38:23.207642"
+}

@@ -1,0 +1,18 @@
+{
+  "execution_id": "f479803d-862c-4574-8c26-ed645051fb7c",
+  "graph_name": "echo_service",
+  "data": {
+    "name": "Alice",
+    "message": "Hello"
+  },
+  "current_node": "process",
+  "visited_nodes": [
+    "process"
+  ],
+  "completed_nodes": [],
+  "status": "failed",
+  "error": "\u001b[36mray::ServeReplica:echo_service_process:echo_service_process.handle_request_with_rejection()\u001b[39m (pid=54318, ip=127.0.0.1, actor_id=63a5ce597acac04f2b75a5ff01000000, repr=<ray.serve._private.replica.ServeReplica:echo_service_process:echo_service_process object at 0x116351a90>)\n    async for result in self._replica_impl.handle_request_with_rejection(\n    ...<8 lines>...\n            yield result\n  File \"/Users/bytedance/Downloads/graphserve-runtime/.venv/lib/python3.13/site-packages/ray/serve/_private/replica.py\", line 1378, in handle_request_with_rejection\n    raise self._maybe_wrap_grpc_exception(e, request_metadata) from e\n  File \"/Users/bytedance/Downloads/graphserve-runtime/.venv/lib/python3.13/site-packages/ray/serve/_private/replica.py\", line 1373, in handle_request_with_rejection\n    yield await self._user_callable_wrapper.call_user_method(\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        request_metadata, request_args, request_kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/Users/bytedance/Downloads/graphserve-runtime/.venv/lib/python3.13/site-packages/ray/serve/_private/replica.py\", line 3339, in call_user_method\n    result, _ = await self._call_func_or_gen(\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/Users/bytedance/Downloads/graphserve-runtime/.venv/lib/python3.13/site-packages/ray/serve/_private/replica.py\", line 2835, in _call_func_or_gen\n    result = await result\n             ^^^^^^^^^^^^\n  File \"/Users/bytedance/Downloads/graphserve-runtime/graphserve/runtime.py\", line 124, in __call__\n    return await self.node_func(state, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/bytedance/Downloads/graphserve-runtime/examples/server_demo.py\", line 40, in process\n    name = state.data.get(\"name\", \"World\")\n           ^^^^^^^^^^\nAttributeError: 'dict' object has no attribute 'data'",
+  "created_at": "2026-02-26T00:20:52.852020",
+  "updated_at": "2026-02-26T00:20:52.936049",
+  "completed_at": null
+}

@@ -1,0 +1,27 @@
+{
+  "execution_id": "08ecd1f9-7785-4504-95f4-6385932de97b",
+  "graph_name": "echo_service",
+  "data": {
+    "name": "Charlie",
+    "message": "Hey",
+    "processed": true,
+    "result": "Hey, Charlie!",
+    "pid": 63665,
+    "final_output": "HEY, CHARLIE!",
+    "timestamp": "134830.057"
+  },
+  "current_node": null,
+  "visited_nodes": [
+    "process",
+    "format_output"
+  ],
+  "completed_nodes": [
+    "process",
+    "format_output"
+  ],
+  "status": "completed",
+  "error": null,
+  "created_at": "2026-02-26T00:38:23.309841",
+  "updated_at": "2026-02-26T00:38:23.875669",
+  "completed_at": "2026-02-26T00:38:23.875668"
+}
