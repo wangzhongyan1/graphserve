@@ -1,0 +1,13 @@
+# Core dependencies
+ray[serve]>=2.9.0
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Optional: For enhanced state storage
+redis>=5.0.0
+
+# Development dependencies (install with: pip install -r requirements-dev.txt)
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+# black>=23.0.0
+# mypy>=1.0.0

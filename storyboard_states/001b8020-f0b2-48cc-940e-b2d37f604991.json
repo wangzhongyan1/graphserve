@@ -1,0 +1,43 @@
+{
+  "execution_id": "001b8020-f0b2-48cc-940e-b2d37f604991",
+  "graph_name": "storyboard_generator",
+  "data": {
+    "title": "Story 2",
+    "novel_text": "Sample story number 2 content...",
+    "scenes": [
+      {
+        "id": 1,
+        "type": "dialogue",
+        "characters": [
+          "Alice",
+          "Bob"
+        ]
+      },
+      {
+        "id": 2,
+        "type": "action",
+        "characters": [
+          "Alice"
+        ]
+      },
+      {
+        "id": 3,
+        "type": "description",
+        "characters": []
+      }
+    ],
+    "scene_count": 3,
+    "analysis_complete": true
+  },
+  "current_node": "scene_analyzer",
+  "visited_nodes": [
+    "scene_background_gen",
+    "scene_analyzer"
+  ],
+  "completed_nodes": [],
+  "status": "running",
+  "error": null,
+  "created_at": "2026-02-25T23:25:41.408668",
+  "updated_at": "2026-02-25T23:28:06.472289",
+  "completed_at": null
+}

@@ -1,0 +1,40 @@
+{
+  "execution_id": "000bb837-7293-4f7c-9209-efc576e1ff5d",
+  "graph_name": "storyboard_generator",
+  "data": {
+    "title": "Story 3",
+    "novel_text": "Sample story number 3 content...",
+    "scenes": [
+      {
+        "id": 1,
+        "type": "dialogue",
+        "characters": [
+          "Alice",
+          "Bob"
+        ]
+      },
+      {
+        "id": 2,
+        "type": "action",
+        "characters": [
+          "Alice"
+        ]
+      },
+      {
+        "id": 3,
+        "type": "description",
+        "characters": []
+      }
+    ],
+    "scene_count": 3,
+    "analysis_complete": true
+  },
+  "current_node": null,
+  "visited_nodes": [],
+  "completed_nodes": [],
+  "status": "pending",
+  "error": null,
+  "created_at": "2026-02-25T23:28:01.622118",
+  "updated_at": "2026-02-25T23:28:01.622119",
+  "completed_at": null
+}

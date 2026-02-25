@@ -1,0 +1,142 @@
+{
+  "execution_id": "61c94983-8776-4518-a188-875fddf8f2ed",
+  "graph_name": "storyboard_generator",
+  "data": {
+    "title": "The Adventure Begins",
+    "novel_text": "Alice met Bob in the old castle. Suddenly, a dragon appeared!",
+    "scenes": [
+      {
+        "id": 1,
+        "type": "dialogue",
+        "characters": [
+          "Alice",
+          "Bob"
+        ]
+      },
+      {
+        "id": 2,
+        "type": "action",
+        "characters": [
+          "Alice"
+        ]
+      },
+      {
+        "id": 3,
+        "type": "description",
+        "characters": []
+      }
+    ],
+    "scene_count": 3,
+    "analysis_complete": true,
+    "characters": [
+      "Alice",
+      "Bob"
+    ],
+    "character_count": 2,
+    "character_details": {
+      "Alice": {
+        "appearances": 1
+      },
+      "Bob": {
+        "appearances": 3
+      }
+    },
+    "portraits": {
+      "Alice": "/images/portrait_alice.png",
+      "Bob": "/images/portrait_bob.png"
+    },
+    "generated_images": 2,
+    "scene_backgrounds": {
+      "scene_1": "/images/bg_generic_1.png",
+      "scene_2": "/images/bg_generic_2.png",
+      "scene_3": "/images/bg_generic_3.png"
+    },
+    "generated_backgrounds": 3,
+    "action_frames": {
+      "action_2": [
+        "/images/action_2_frame_0.png",
+        "/images/action_2_frame_1.png",
+        "/images/action_2_frame_2.png"
+      ]
+    },
+    "action_scene_count": 1,
+    "storyboard": {
+      "title": "The Adventure Begins",
+      "total_scenes": 3,
+      "assets": {
+        "portraits": {
+          "Alice": "/images/portrait_alice.png",
+          "Bob": "/images/portrait_bob.png"
+        },
+        "backgrounds": {
+          "scene_1": "/images/bg_generic_1.png",
+          "scene_2": "/images/bg_generic_2.png",
+          "scene_3": "/images/bg_generic_3.png"
+        },
+        "action_frames": {
+          "action_2": [
+            "/images/action_2_frame_0.png",
+            "/images/action_2_frame_1.png",
+            "/images/action_2_frame_2.png"
+          ]
+        }
+      },
+      "pages": [
+        {
+          "scene_id": 1,
+          "type": "dialogue",
+          "background": "/images/bg_generic_1.png",
+          "characters": [
+            "/images/portrait_alice.png",
+            "/images/portrait_bob.png"
+          ],
+          "action_frames": []
+        },
+        {
+          "scene_id": 2,
+          "type": "action",
+          "background": "/images/bg_generic_2.png",
+          "characters": [
+            "/images/portrait_alice.png"
+          ],
+          "action_frames": [
+            "/images/action_2_frame_0.png",
+            "/images/action_2_frame_1.png",
+            "/images/action_2_frame_2.png"
+          ]
+        },
+        {
+          "scene_id": 3,
+          "type": "description",
+          "background": "/images/bg_generic_3.png",
+          "characters": [],
+          "action_frames": []
+        }
+      ]
+    },
+    "assembly_complete": true,
+    "total_assets": 8
+  },
+  "current_node": null,
+  "visited_nodes": [
+    "scene_analyzer",
+    "character_extractor",
+    "character_portrait_gen",
+    "scene_background_gen",
+    "action_sequence_gen",
+    "storyboard_assembler"
+  ],
+  "completed_nodes": [
+    "scene_analyzer",
+    "character_extractor",
+    "character_portrait_gen",
+    "scene_background_gen",
+    "action_sequence_gen",
+    "storyboard_assembler"
+  ],
+  "status": "completed",
+  "error": null,
+  "created_at": "2026-02-25T23:40:52.660409",
+  "updated_at": "2026-02-25T23:40:53.195823",
+  "completed_at": "2026-02-25T23:40:53.195813"
+}

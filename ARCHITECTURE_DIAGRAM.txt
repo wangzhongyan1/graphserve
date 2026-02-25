@@ -1,0 +1,230 @@
+================================================================================
+                    GraphServe Runtime - Architecture Diagram
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              USER API LAYER                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────────┐ │
+│   │  Graph Builder  │    │  Runtime API    │    │    HTTP API (FastAPI)   │ │
+│   │                 │    │                 │    │                         │ │
+│   │  graph = Graph  │    │  runtime.submit │    │  POST /execute          │ │
+│   │  @graph.node()  │    │  runtime.get    │    │  GET  /status/{id}      │ │
+│   │  graph.add_edge │    │  runtime.cancel │    │  GET  /result/{id}      │ │
+│   │  graph.compile  │    │  runtime.recover│    │  POST /cancel/{id}      │ │
+│   └─────────────────┘    └─────────────────┘    └─────────────────────────┘ │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           CORE RUNTIME ENGINE                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌────────────┐  │
+│   │   Graph     │───▶│  Scheduler  │───▶│   State     │───▶│  Recovery  │  │
+│   │  Compiler   │    │             │    │   Manager   │    │   Manager  │  │
+│   └─────────────┘    └──────┬──────┘    └─────────────┘    └────────────┘  │
+│                              │                                               │
+│   ┌─────────────┐    ┌──────┴──────┐    ┌─────────────┐                     │
+│   │   Node      │◄───│   Router    │    │  Checkpoint │                     │
+│   │  Registry   │    │             │    │   Manager   │                     │
+│   └─────────────┘    └─────────────┘    └─────────────┘                     │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        RESOURCE MANAGEMENT LAYER                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────┐    │
+│   │  Resource       │  │  Metrics        │  │    Auto-Scaler          │    │
+│   │  Allocator      │  │  Collector      │  │  ┌─────────────────┐    │    │
+│   │  (CPU/GPU/Mem)  │  │  (Latency/QPS)  │  │  │ Scale Up/Down   │    │    │
+│   └────────┬────────┘  └────────┬────────┘  │  │ Decision Engine │    │    │
+│            │                    │           │  └─────────────────┘    │    │
+│            └────────────────────┴───────────┴─────────────────────────┘    │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         RAY SERVE INTEGRATION                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────────────────────────────────────────────────────────────┐   │
+│   │                    Node Deployments (Independent)                    │   │
+│   │                                                                      │   │
+│   │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌───────────┐  │   │
+│   │  │  Node A     │  │  Node B     │  │  Node C     │  │   ...     │  │   │
+│   │  │             │  │             │  │             │  │           │  │   │
+│   │  │  GPU=1      │  │  CPU=4      │  │  GPU=2      │  │           │  │   │
+│   │  │  CPU=2      │  │  Mem=2GB    │  │  Mem=8GB    │  │           │  │   │
+│   │  │  Mem=4GB    │  │             │  │             │  │           │  │   │
+│   │  │             │  │             │  │             │  │           │  │   │
+│   │  │ Replicas:   │  │ Replicas:   │  │ Replicas:   │  │           │  │   │
+│   │  │  1 ──► 10   │  │  2 ──► 20   │  │  1 ──► 5    │  │           │  │   │
+│   │  │             │  │             │  │             │  │           │  │   │
+│   │  │ [Ray Actor] │  │ [Ray Actor] │  │ [Ray Actor] │  │           │  │   │
+│   │  │ [Ray Actor] │  │ [Ray Actor] │  │ [Ray Actor] │  │           │  │   │
+│   │  └─────────────┘  └─────────────┘  └─────────────┘  └───────────┘  │   │
+│   │                                                                      │   │
+│   │  Auto-scaling: Based on concurrent requests, latency, queue depth   │   │
+│   │                                                                      │   │
+│   └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          PERSISTENCE LAYER                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────┐    │
+│   │  In-Memory      │  │  File System    │  │    Redis (future)       │    │
+│   │  (Development)  │  │  (Production)   │  │    (Distributed)        │    │
+│   └─────────────────┘  └─────────────────┘  └─────────────────────────┘    │
+│                                                                              │
+│   State Storage:                                                             │
+│   - execution_id, graph_name                                                 │
+│   - data (user data + results)                                               │
+│   - current_node, visited_nodes, completed_nodes                            │
+│   - checkpoints (for recovery)                                               │
+│   - timestamps (created_at, updated_at, completed_at)                       │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+                            Execution Flow
+================================================================================
+
+    ┌─────────┐
+    │  USER   │
+    └────┬────┘
+         │ 1. Define Graph (nodes + edges)
+         ▼
+    ┌─────────────┐
+    │   Graph     │
+    │   Builder   │
+    └──────┬──────┘
+           │ 2. Compile & Validate
+           ▼
+    ┌─────────────┐     3. Deploy to Ray     ┌─────────────────┐
+    │   Runtime   │ ────────────────────────▶ │  Ray Serve      │
+    │   Engine    │                           │  Deployments    │
+    └──────┬──────┘                           └─────────────────┘
+           │
+           │ 4. Submit Execution
+           ▼
+    ┌─────────────┐
+    │   State     │
+    │   Manager   │
+    └──────┬──────┘
+           │ 5. Create State + Checkpoint
+           ▼
+    ┌─────────────┐     6. Route to Node     ┌─────────────────┐
+    │   Router    │ ────────────────────────▶ │  Node Actor     │
+    │             │                           │  (Ray Serve)    │
+    └──────┬──────┘                           └─────────────────┘
+           │                                         │
+           │ 7. Determine Next Node(s)               │ 8. Execute
+           │                                         │
+           │ 9. Update State                         │
+           │◀────────────────────────────────────────┘
+           │
+           │ 10. More nodes? ──Yes──▶ Repeat from 6
+           │
+           │ No
+           ▼
+    ┌─────────────┐
+    │   Mark      │
+    │  Complete   │
+    └──────┬──────┘
+           │ 11. Persist Final State
+           ▼
+    ┌─────────┐
+    │  USER   │ (Get Result)
+    └─────────┘
+
+================================================================================
+                          State Transitions
+================================================================================
+
+                         ┌─────────────┐
+                         │   PENDING   │
+                         └──────┬──────┘
+                                │ submit()
+                                ▼
+    ┌─────────┐          ┌─────────────┐          ┌─────────────┐
+    │  FAIL   │◀─────────│   RUNNING   │─────────▶│  COMPLETED  │
+    │         │  error   │             │  success │             │
+    └────┬────┘          └─────────────┘          └─────────────┘
+         │
+         │ recover()
+         ▼
+    ┌─────────────┐
+    │   RUNNING   │ (from last checkpoint)
+    └─────────────┘
+
+================================================================================
+                          Node Configuration
+================================================================================
+
+@graph.node(
+    # Resource Requirements
+    cpus=2.0,              # CPU cores (float supported)
+    gpus=1.0,              # GPUs
+    memory=4096,           # Memory in MB
+    
+    # Scaling Configuration
+    min_replicas=1,        # Minimum replicas (always running)
+    max_replicas=10,       # Maximum replicas (auto-scale limit)
+    target_concurrency=2,  # Target concurrent requests per replica
+    
+    # Retry Configuration
+    max_retries=3,         # Max retries on failure
+    retry_delay=1.0,       # Delay between retries (seconds)
+)
+async def my_node(state):
+    # Access input data
+    input_data = state.data
+    
+    # Process...
+    result = do_something(input_data)
+    
+    # Return output (merged into state.data)
+    return {"result": result}
+
+================================================================================
+                          Key Features
+================================================================================
+
+1. SIMPLE API
+   - Only 5 main classes: Graph, Runtime, State, NodeConfig, StateManager
+   - Decorator-based node definition
+   - Chainable graph building
+
+2. RAY-POWERED
+   - Each node is an independent Ray Serve deployment
+   - Auto-scaling based on load
+   - Resource isolation (CPU/GPU/Memory)
+
+3. PERSISTENT STATE
+   - Automatic checkpointing
+   - Recovery from failures
+   - Multiple storage backends
+
+4. DYNAMIC ROUTING
+   - Conditional edges
+   - Parallel execution paths
+   - Runtime graph modification
+
+5. PRODUCTION-READY
+   - HTTP API (FastAPI)
+   - Health checks
+   - Metrics and observability
+   - Graceful shutdown
+
+================================================================================

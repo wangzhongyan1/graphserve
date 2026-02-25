@@ -1,0 +1,45 @@
+{
+  "execution_id": "00664a17-d208-4297-89e7-aec8dd2a1420",
+  "graph_name": "storyboard_generator",
+  "data": {
+    "title": "The Adventure Begins",
+    "novel_text": "Alice met Bob in the old castle. Suddenly, a dragon appeared!",
+    "scenes": [
+      {
+        "id": 1,
+        "type": "dialogue",
+        "characters": [
+          "Alice",
+          "Bob"
+        ]
+      },
+      {
+        "id": 2,
+        "type": "action",
+        "characters": [
+          "Alice"
+        ]
+      },
+      {
+        "id": 3,
+        "type": "description",
+        "characters": []
+      }
+    ],
+    "scene_count": 3,
+    "analysis_complete": true
+  },
+  "current_node": "scene_analyzer",
+  "visited_nodes": [
+    "character_portrait_gen",
+    "scene_analyzer"
+  ],
+  "completed_nodes": [
+    "scene_analyzer"
+  ],
+  "status": "running",
+  "error": null,
+  "created_at": "2026-02-25T23:22:02.051070",
+  "updated_at": "2026-02-25T23:22:35.608611",
+  "completed_at": null
+}
